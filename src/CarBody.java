@@ -1,4 +1,4 @@
-public class CarBody {
+class CarBody {
     private String color;
     private Material material;
 

@@ -1,4 +1,4 @@
-public class Car {
+class Car {
     private CustomerData custData;
     private CarData carData;
     private Engine engine;

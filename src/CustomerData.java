@@ -1,4 +1,4 @@
-public class CustomerData {
+class CustomerData {
     private String name;
     private String surname;
     private String phoneNumber;

@@ -1,11 +1,29 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
+class DatabaseResult {
+    private int resultCode;
+
+    public DatabaseResult(int code) {
+        resultCode = code;
+    }
+
+    public int getResultCode() {
+        return resultCode;
+    }
+}
+
 class CarDatabase {
+    private static int totalCarDatabases = 0;
+
     private int numCars = 0;
     private ArrayList<Car> cars = new ArrayList<>();
 
-    public void input() {
+    public CarDatabase() {
+        totalCarDatabases++;
+    }
+
+    public DatabaseResult input() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Создание записи об автомобиле.\n");
 
@@ -74,11 +92,17 @@ class CarDatabase {
         }
 
         CarBody body = new CarBody(color, mat);
-        Car carObj = new Car(customer, car, eng, drive, body);
 
-        cars.add(carObj);
-        numCars++;
-        System.out.println("Запись создана.\n");
+        if (numCars < Integer.MAX_VALUE) {
+            Car carObj = new Car(customer, car, eng, drive, body);
+            cars.add(carObj);
+            numCars++;
+            System.out.println("Запись создана.\n");
+            return new DatabaseResult(0); // Успешное создание записи
+        } else {
+            System.out.println("Достигнуто максимальное количество записей!\n");
+            return new DatabaseResult(1); // Превышено максимальное количество записей
+        }
     }
 
     public void output() {
@@ -94,8 +118,14 @@ class CarDatabase {
         }
     }
 
+    public static int getTotalCarDatabases() {
+        return totalCarDatabases;
+    }
+
     public static void main(String[] args) {
         CarDatabase carDb = new CarDatabase();
+        CarDatabase[] carDatabases = new CarDatabase[5]; // Пример массива объектов
+
         int quit = 0;
         int option;
         Scanner scanner = new Scanner(System.in);
@@ -113,7 +143,10 @@ class CarDatabase {
                 option = scanner.nextInt();
                 switch (option) {
                     case 1:
-                        carDb.input();
+                        DatabaseResult result = carDb.input();
+                        if (result.getResultCode() == 1) {
+                            System.out.println("Ошибка: Превышено максимальное количество записей!\n");
+                        }
                         break;
                     case 2:
                         System.out.println("Редактирование находится в разработке!\n");

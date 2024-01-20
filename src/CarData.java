@@ -1,4 +1,4 @@
-public class CarData {
+class CarData {
     private String carBrand;
     private String yearOfRelease;
     private String stateNumber;
